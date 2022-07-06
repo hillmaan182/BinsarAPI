@@ -1,0 +1,25 @@
+﻿@using BinsarAPI.Models
+@model BinsarAPI.Models.Data
+@{
+    Layout = "_Layout"; ViewBag.Title = "Update User";
+}
+@ViewBag.Result 
+<h2>Update User</h2>
+<form method="post" action="Update">
+    <input type="hidden" value="@Model.id" name="id"  />
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <input class="form-control" name="name" value="@Model.name" />
+    </div>
+    <div class="form-group">
+        <label for="Email">Email:</label>
+        <input class="form-control" name="email" value="@Model.email"/>
+    </div>
+    <div class="form-group">
+    <label for="Status">Status:</label>
+    <input class="form-control" name="status"  value="@Model.status"/>
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-sm btn-primary">Update User</button>
+    </div>
+</form>

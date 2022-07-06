@@ -1,0 +1,125 @@
+﻿@using BinsarAPI.Models
+@model BinsarAPI.Models.User
+@{
+    Layout = "_Layout"; ViewBag.Title = "All User";
+
+    if (Model.meta.pagination.links.next != null)
+    {
+        ViewBag.Next = Model.meta.pagination.links.next;
+    }
+
+    if (Model.meta.pagination.links.previous != null)
+    {
+        ViewBag.Prev = Model.meta.pagination.links.previous;
+    }
+    else
+    {
+        ViewBag.hidPrev = "hidden";
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body>
+    <h2>User</h2>
+
+    <form class="w3-container" method="post" action="AddUser">
+        <div class="form-group">
+            <label for="Name">Name:</label>
+            <input class="w3-input" name="Name" />
+        </div>
+        <div class="form-group">
+            <label for="Gender">Gender:</label>
+            <label for="Gender">Male:</label>
+            <input class="w3-radio" type="radio" id="male" name="Gender" value="male">
+            <label for="Gender">Female:</label>
+            <input class="w3-radio" type="radio" id="female" name="Gender" value="female">
+        </div>
+        <div class="form-group">
+            <label for="Email">Email:</label>
+            <input class="w3-input" name="Email" />
+        </div>
+    
+        <div class="text-center panel-body">
+            <button type="submit" class="w3-button w3-light-green">Add User</button>
+        </div>
+    </form>
+    <b>@ViewBag.Result</b>
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Email</th>
+             
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.data)
+            {
+                <tr>
+                    <td>@r.id</td>
+                    <td>@r.name</td>
+                    <td>@r.gender</td>
+                    <td>@r.email</td>
+                    <td>
+                        <form action="Update">
+                            <input type="hidden" value="@r.id" name="id" />
+                            <button type="submit" class="btn btn-sm btn-primary">Update User</button>
+                        </form>
+                    
+                    <td>
+                        <form action="DelUser" method="post">
+                            <input type="hidden" value="@r.id" name="id" />
+                            <button type="submit" class="btn btn-sm btn-primary">Delete User</button>
+                        </form>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Page : </td>
+                <td>@Model.meta.pagination.page</td>
+                <td>
+                    <form action="Prev" method="post">
+                        <input type="hidden" value="@ViewBag.Prev" name="prev" />
+                        <button type="submit" class="btn btn-sm btn-primary" hidden="@ViewBag.hidPrev"><i class="fa fa-arrow-left"></i></button>
+                    </form>
+                </td>
+                <td>
+
+                    <form action="Next" method="post">
+                        <input type="hidden" value="@ViewBag.Next" name="next" />
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-arrow-right"></i></button>
+                    </form>
+                </td>
+
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>
